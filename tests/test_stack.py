@@ -26,7 +26,7 @@ class TestStack(SetupTeardownMixin):
 
         assert str(stack_exception.value) == "Stack Underflow!"
 
-    def test_fool(self):
+    def test_full(self):
         assert self.test_stack.is_full()
 
         with raises(StackError) as stack_exception:
