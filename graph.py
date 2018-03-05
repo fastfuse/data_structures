@@ -18,7 +18,7 @@ class Vertex:
         :param vertex: vertex to connect with.
         :param weight: weight of connection.
         """
-        self.connections[vertex] = weight
+        self.connections[vertex.id] = weight
 
     def get_connections(self):
         return list(self.connections.keys())
@@ -40,9 +40,11 @@ class Vertex:
 class Graph:
     """
     Class represents Graph data structure.
+
+    TODO: add possibility to add existing vertex.
     """
     def __init__(self):
-        self.vertices = {}
+        self._vertices = {}
         self.vertices_count = 0
 
     def add_vertex(self, name):
@@ -52,7 +54,7 @@ class Graph:
         :param name: vertex name
         """
         new_vertex = Vertex(name)
-        self.vertices[name] = new_vertex
+        self._vertices[name] = new_vertex
         self.vertices_count += 1
 
         return new_vertex
@@ -65,7 +67,7 @@ class Graph:
 
         :return: vertex or None if no such vertex.
         """
-        return self.vertices.get(name, None)
+        return self._vertices.get(name, None)
 
     def add_edge(self, from_v, to_v, weight=0):
         """
@@ -81,13 +83,14 @@ class Graph:
         if to_v not in self.vertices:
             self.add_vertex(to_v)
 
-        self.vertices[from_v].add_connection(self.vertices[to_v], weight=weight)
+        self._vertices[from_v].add_connection(self._vertices[to_v], weight)
 
-    def get_vertices(self):
-        return list(self.vertices.keys())
+    @property
+    def vertices(self):
+        return list(self._vertices.keys())
 
     def __contains__(self, item):
         return item in self.vertices
 
     def __iter__(self):
-        return iter(self.vertices.values())
+        return iter(self._vertices.values())

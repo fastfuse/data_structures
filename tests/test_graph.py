@@ -1,4 +1,4 @@
-from graph import Graph
+from graph import Graph, Vertex
 
 
 class SetupTeardownMixin:
@@ -17,7 +17,7 @@ class TestGraph(SetupTeardownMixin):
 
         self.graph.add_vertex('V5')
         assert self.graph.vertices_count == 5
-        assert self.graph.vertices['V5'].id == 'V5'
+        assert self.graph.vertices[-1] == 'V5'
 
     def test_get_vertex(self):
         v = self.graph.get_vertex('V2')
@@ -25,6 +25,15 @@ class TestGraph(SetupTeardownMixin):
 
         assert not self.graph.get_vertex('V7')
 
+    def test_add_edge(self):
+        self.graph.add_edge('V6', 'V7', weight=5)
 
+        assert 'V6' in self.graph
+        assert 'V7' in self.graph
 
+        v6 = self.graph.get_vertex('V6')
 
+        assert 'V7' in v6.get_connections()
+
+    def test_get_vertices(self):
+        assert self.graph.vertices == ['V1', 'V2', 'V3', 'V4']
