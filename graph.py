@@ -10,6 +10,9 @@ class Vertex:
     def __init__(self, name):
         self._id = name
         self.connections = {}
+        self._color = 'white'
+        self._distance = 0
+        self._prev = None
 
     def add_connection(self, vertex, weight=0):
         """
@@ -18,7 +21,7 @@ class Vertex:
         :param vertex: vertex to connect with.
         :param weight: weight of connection.
         """
-        self.connections[vertex.id] = weight
+        self.connections[vertex] = weight
 
     def get_connections(self):
         return list(self.connections.keys())
@@ -32,6 +35,28 @@ class Vertex:
     @property
     def id(self):
         return self._id
+
+    def get_color(self):
+        return self._color
+
+    def set_color(self, color):
+        self._color = color
+
+    def get_distance(self):
+        return self._distance
+
+    def set_distance(self, distance):
+        self._distance = distance
+
+    def get_prev(self):
+        return self._prev
+
+    def set_prev(self, prev):
+        self._prev = prev
+
+    color = property(get_color, set_color)
+    distance = property(get_distance, set_distance)
+    previous = property(get_prev, set_prev)
 
     def __repr__(self):
         return f"<Vertex object. ID: {self.id}>"

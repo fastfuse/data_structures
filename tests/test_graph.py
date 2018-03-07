@@ -32,8 +32,9 @@ class TestGraph(SetupTeardownMixin):
         assert 'V7' in self.graph
 
         v6 = self.graph.get_vertex('V6')
+        v7 = self.graph.get_vertex('V7')
 
-        assert 'V7' in v6.get_connections()
+        assert v7 in v6.get_connections()
 
     def test_get_vertices(self):
         assert self.graph.vertices == ['V1', 'V2', 'V3', 'V4']
