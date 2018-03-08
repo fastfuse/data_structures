@@ -10,7 +10,7 @@ class Vertex:
     def __init__(self, name):
         self._id = name
         self.connections = {}
-        self._color = 'white'
+        self._color = 'WHITE'
         self._distance = 0
         self._prev = None
 
