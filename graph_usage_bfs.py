@@ -13,6 +13,9 @@ class Queue(deque):
     def get(self):
         return self.popleft()
 
+    def is_empty(self):
+        return len(self) == 0
+
 
 # ===========================================================================
 # Case 1
@@ -53,36 +56,35 @@ def bfs(start_vertex):
     :param start_vertex: vertex to start search.
     """
     start_vertex.distance = 0
-    start_vertex.previous = None
 
     vertices_q = Queue()
-    vertices_q.append(start_vertex)
+    vertices_q.put(start_vertex)
 
-    while len(vertices_q) > 0:
-        current_vertex = vertices_q.popleft()
+    while not vertices_q.is_empty():
+        current_vertex = vertices_q.get()
 
         for nbr in current_vertex.get_connections():
             if nbr.color == 'WHITE':
                 nbr.color = 'GRAY'
                 nbr.distance = current_vertex.distance + 1
                 nbr.previous = current_vertex
-                vertices_q.append(nbr)
+                vertices_q.put(nbr)
 
         current_vertex.color = 'BLACK'
 
 
-def traverse(node):
+def traverse(target_node):
     """
-    Function to build path from dest node to start.
+    Function to build path from start node to target node.
     """
     path = list()
 
-    while node.previous:
-        path.append(node.id)
-        node = node.previous
-    path.append(node.id)
+    while target_node.previous:
+        path.append(target_node.id)
+        target_node = target_node.previous
+    path.append(target_node.id)
 
-    return path
+    return list(reversed(path))
 
 
 if __name__ == '__main__':
@@ -93,7 +95,7 @@ if __name__ == '__main__':
 
     bfs(start)
 
-    print(' <- '.join(traverse(wg.get_vertex('SAGE'))))
-    print(' <- '.join(traverse(wg.get_vertex('PALL'))))
-    print(' <- '.join(traverse(wg.get_vertex('RACE'))))
-    print(' <- '.join(traverse(wg.get_vertex('RAGE'))))
+    print(' -> '.join(traverse(wg.get_vertex('SAGE'))))
+    print(' -> '.join(traverse(wg.get_vertex('PALL'))))
+    print(' -> '.join(traverse(wg.get_vertex('RACE'))))
+    print(' -> '.join(traverse(wg.get_vertex('RAGE'))))

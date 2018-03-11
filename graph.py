@@ -1,18 +1,21 @@
 """
 Graph Data Structure.
 """
+import sys
 
 
 class Vertex:
     """
     Class represents a vertex (aka Node) of the Graph.
     """
+
     def __init__(self, name):
         self._id = name
         self.connections = {}
         self._color = 'WHITE'
-        self._distance = 0
+        self._distance = 99999
         self._prev = None
+        self.visited = False
 
     def add_connection(self, vertex, weight=0):
         """
@@ -58,6 +61,9 @@ class Vertex:
     distance = property(get_distance, set_distance)
     previous = property(get_prev, set_prev)
 
+    def __lt__(self, other):
+        return self.id < other.id
+
     def __repr__(self):
         return f"<Vertex object. ID: {self.id}>"
 
@@ -68,6 +74,7 @@ class Graph:
 
     TODO: add possibility to add existing vertex.
     """
+
     def __init__(self):
         self._vertices = {}
         self.vertices_count = 0
@@ -109,6 +116,7 @@ class Graph:
             self.add_vertex(to_v)
 
         self._vertices[from_v].add_connection(self._vertices[to_v], weight)
+        self._vertices[to_v].add_connection(self._vertices[from_v], weight)
 
     @property
     def vertices(self):
